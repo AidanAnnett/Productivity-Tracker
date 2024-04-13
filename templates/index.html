@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <h2>Add Task</h2>
+    <form action="/add_task" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="duration">Duration (minutes):</label>
+        <input type="number" id="duration" name="duration" min="1" required><br><br>
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+        </select><br><br>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <h2>Tasks</h2>
+    <ul>
+        {% for task in tasks %}
+        <li>
+            {{ task.name }} ({{ task.category }}) - {{ task.remaining_time() }}
+            <form action="/toggle_task/{{ loop.index0 }}" method="post">
+                <button type="submit">{{ 'Start' if not task.running else 'Pause' }}</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
